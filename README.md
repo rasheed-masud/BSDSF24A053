@@ -12,23 +12,23 @@ This project implements custom utility functions for string manipulation and fil
 
 ## How to Build & Run
 
-31. Build Everything
-```bash
+1. Build Everything
+``gbash
 make
 ```
 
-### 2. Run Static Executable
-```bash
-./bin/client_static`
-```
+2. Run Static Executable
+``cbash
+./bin/client_static
+```\
 
-### 3. Run Dynamic Executable
-```bash
+3. Run Dynamic Executable
+``cbash
 export LD_LIBRARY_PATH=$(pwd)/lib:$LD_LIBRARY_PATH
 ./bin/client_dynamic
-```
+``g\
 
-### 4. Clean Build Artifacts
-```bash
+4. Clean Build Artifacts
+``cbash
 make clean
-``g
+```\
