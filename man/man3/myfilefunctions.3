@@ -1,0 +1,15 @@
+.TH MYFILEFUNCTIONS 3 "September 2026" "v1.0" "Custom C Utilities Manual"
+.SH NAME
+wordCount, mygrep \- Custom C file operation utilities
+.SH SYNOPSIS
+.B #include "myfilefunctions.h"
+.sp
+.BI "int wordCount(FILE *" fp ", int *" lines ", int *" words ", int *" chars ");"
+.br
+.BI "int mygrep(FILE *" fp ", const char *" search_str ", char ***" matches ");"
+.SH DESCRIPTION
+\fBwordCount\fR calculates lines, words, and characters in the open file stream \fIfp\fR. Returns 0 on success.
+.br
+\fBmygrep\fR searches for lines containing \fIsearch_str\fR in file stream \fIfp\fR and populates the \fImatches\fR array. Returns match count or -1 on failure.
+.SH AUTHOR
+Masud (BSDSF24A053)

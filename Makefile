@@ -43,3 +43,21 @@ clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR) $(LIB_DIR) sample.txt
 
 .PHONY: all clean
+
+PREFIX ?= /usr/local
+
+install:
+	@echo "Installing binaries and man pages..."
+	install -d $(PREFIX)/bin
+	install -m 755 bin/client_static $(PREFIX)/bin/
+	install -m 755 bin/client_dynamic $(PREFIX)/bin/
+	install -d $(PREFIX)/share/man/man3
+	install -m 644 man/man3/*.3 $(PREFIX)/share/man/man3/
+	@echo "Installation complete!"
+
+uninstall:
+	rm -f $(PREFIX)/bin/client_static
+	rm -f $(PREFIX)/bin/client_dynamic
+	rm -f $(PREFIX)/share/man/man3/mystrfunctions.3
+	rm -f $(PREFIX)/share/man/man3/myfilefunctions.3
+	@echo "Uninstallation complete!"
