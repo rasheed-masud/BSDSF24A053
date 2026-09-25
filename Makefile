@@ -1,5 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude
+PICFLAGS = -fPIC
 AR = ar
 ARFLAGS = rcs
 
@@ -8,21 +9,32 @@ OBJ_DIR = obj
 LIB_DIR = lib
 BIN_DIR = bin
 
-LIB_OBJS = $(OBJ_DIR)/mystrfunctions.o $(OBJ_DIR)/myfilefunctions.o
 STATIC_LIB = $(LIB_DIR)/libmyutils.a
-TARGET_STATIC = $(BIN_DIR)/client_static
+SHARED_LIB = $(LIB_DIR)/libmyutils.so
 
-all: $(TARGET_STATIC)
+TARGET_STATIC = $(BIN_DIR)/client_static
+TARGET_DYNAMIC = $(BIN_DIR)/client_dynamic
+
+all: $(TARGET_STATIC) $(TARGET_DYNAMIC)
 
 $(TARGET_STATIC): $(OBJ_DIR)/main.o $(STATIC_LIB) | $(BIN_DIR)
 	$(CC) $(CFLAGS) $< -L$(LIB_DIR) -lmyutils -o $@
 
-$(STATIC_LIB): $(LIB_OBJS) | $(LIB_DIR)
+$(TARGET_DYNAMIC): $(OBJ_DIR)/main.o $(SHARED_LIB) | $(BIN_DIR)
+	$(CC) $(CFLAGS) $< -L$(LIB_DIR) -lmyutils -o $@
+
+$(STATIC_LIB): $(OBJ_DIR)/mystrfunctions.o $(OBJ_DIR)/myfilefunctions.o | $(LIB_DIR)
 	$(AR) $(ARFLAGS) $@ $^
 	ranlib $@
 
+$(SHARED_LIB): $(OBJ_DIR)/mystrfunctions_pic.o $(OBJ_DIR)/myfilefunctions_pic.o | $(LIB_DIR)
+	$(CC) -shared $^ -o $@
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/%_pic.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(PICFLAGS) -c $< -o $@
 
 $(BIN_DIR) $(OBJ_DIR) $(LIB_DIR):
 	mkdir -p $@
